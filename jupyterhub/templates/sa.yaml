@@ -1,0 +1,78 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  namespace: jupyterhub
+  name: jupyter-hub
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  namespace: jupyterhub
+  name: jupyter-hub-jupyterhub
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: jupyter-hub
+  namespace: jupyterhub
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  namespace: jupyterhub
+  name: spartakus
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  namespace: jupyterhub
+  name: spartakus-jupyterhub
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: spartakus
+  namespace: jupyterhub
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  namespace: jupyterhub
+  name: tf-job-dashboard
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  namespace: jupyterhub
+  name: tf-job-dashboard-jupyterhub
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: tf-job-dashboard
+  namespace: jupyterhub
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  namespace: jupyterhub
+  name: tf-job-operator
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  namespace: jupyterhub
+  name: tf-job-operator-jupyterhub
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: tf-job-operator
+  namespace: jupyterhub	

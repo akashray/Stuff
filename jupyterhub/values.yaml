@@ -1,0 +1,48 @@
+# ------------------------------------------------------------------------------
+# JupyterHub:
+# ------------------------------------------------------------------------------
+
+## The StatefulSet installs 1 pods by default
+
+statefulset:
+  replicas: 1
+  podManagementPolicy: OrderedReady
+  revisionHistoryLimit: 10 
+
+## The kafka image repository
+  image: "gcr.io/kubeflow/jupyterhub-k8s"
+
+## The kafka image tag
+  imageTag: "1.0.1"
+
+## Specify a imagePullPolicy
+## ref: http://kubernetes.io/docs/user-guide/images/#pre-pulling-images
+  imagePullPolicy: "IfNotPresent"
+  restartPolicy: Always
+  
+  
+
+  persistence:
+    enabled: true
+
+  ## The size of the PersistentVolume to allocate to each Kafka Pod in the StatefulSet. For
+  ## production servers this number should likely be much larger.
+  ##
+    size: "5Gi"
+
+  ## The location within the Kafka container where the PV will mount its storage and Kafka will
+  ## store its logs.
+  ##
+    mountPath: "/etc/config"
+
+  # storageClass:
+  updateStrategy:
+    type: RollingUpdate 
+ 
+service:
+  name: jupyter-hub 
+
+configmap:
+  GitHubOAuthenticator.oauth_callback_url: http://tf-hub-lb-jupyterhub.apps.openshift.paas-enablement.net/hub/oauth_callback
+  GitHubOAuthenticator.clientid: b1810418e45d22a84be3
+  GitHubOAuthenticator.clientsecret: de9f221f55017baa5cfd6cd7f086b983e41a622f
