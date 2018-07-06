@@ -1,4 +1,5 @@
-{
+[
+  {
 "name": "jack",
 "age": 30,
 "city": "mum"
@@ -12,4 +13,5 @@
 "name": "john",
 "age": 20,
 "city": "mum"
-};
+}
+];
