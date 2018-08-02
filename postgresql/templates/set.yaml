@@ -1,0 +1,82 @@
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: "{{ template "postgre.fullname" . }}-{{.Values.container.name.default}}"
+  labels:
+    name: "{{ template "postgre.fullname" . }}-{{.Values.container.name.default}}"
+    app: "{{ template "postgre.fullname" . }}-{{.Values.container.name.default}}"
+    chart: "{{.Chart.Name}}-{{.Chart.Version}}"
+  annotations:
+    "helm.sh/created": {{.Release.Time.Seconds | quote }}
+spec:
+  serviceName: "{{ template "postgre.fullname" . }}-{{.Values.container.name.default}}"
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: "{{ template "postgre.fullname" . }}-{{.Values.container.name.default}}"
+    spec:
+      serviceAccount: "{{.Release.Namespace}}-{{ template "postgre.fullname" . }}-{{.Values.container.serviceAccount}}"
+      containers:
+      - name: {{.Values.container.name.default}}
+        image: "{{.Values.image.repository}}/{{.Values.image.container}}:{{.Values.image.tag}}"
+        ports:
+        - containerPort: {{.Values.container.port}}
+          name: postgres
+        env:
+        - name: PGHOST
+          value: /tmp
+        - name: PG_PRIMARY_USER
+          value: primaryuser
+        - name: PG_MODE
+          value: set
+        - name: PG_PRIMARY_HOST
+          value: "{{.Values.container.name.primary}}"
+        - name: PG_REPLICA_HOST
+          value: "{{.Values.container.name.replica}}"
+        - name: PG_PRIMARY_PORT
+          value: "{{.Values.container.port}}"
+        - name: PG_PRIMARY_PASSWORD
+          value: "{{.Values.credentials.primary}}"
+        - name: PG_USER
+          valueFrom:
+              secretKeyRef:
+                name: {{ template "postgre.fullname" . }}
+                key: postgres-username
+        {{- if .Values.usePassword }}
+        - name: PG_PASSWORD
+          valueFrom:
+              secretKeyRef:
+                name: {{ template "postgre.fullname" . }}
+                key: postgres-password
+        - name: PG_DATABASE
+          valueFrom:
+              secretKeyRef:
+                name: {{ template "postgre.fullname" . }}
+                key: postgres-database
+        - name: PG_ROOT_PASSWORD
+          valueFrom:
+              secretKeyRef:
+                name: {{ template "postgre.fullname" . }}
+                key: postgres-root-password
+          {{- end }}
+        resources:
+          requests:
+            cpu: {{ .Values.resources.cpu }}
+            memory: {{ .Values.resources.memory }}
+        volumeMounts:
+        - mountPath: /pgdata
+          name: pgdata
+        - mountPath: /backup
+          name: backup
+          readOnly: true
+      volumes:
+      - emptyDir: {}
+        name: backup
+      - name: pgdata
+      {{- if .Values.persistence.enabled }}
+        persistentVolumeClaim:
+          claimName: {{ template "postgre.fullname" . }}
+      {{- else }}
+        emptyDir: {}
+      {{- end -}}

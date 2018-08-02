@@ -1,0 +1,36 @@
+name: pgset
+container:
+  port: 5432
+  name:
+    default: pgset
+    primary: pgset-primary
+    replica: pgset-replica
+  serviceAccount: pgset-sa
+credentials:
+  primary: password
+## PostgreDB custom user and database
+## 
+##
+postgredbUsername: "testuser"
+# postgredbPassword: password
+postgredbDatabase: "userdb"
+
+usePassword: true
+
+serviceType: ClusterIP
+image:
+  repository: jittakal
+  container: postgresql-ha
+  tag: 1.0.0
+persistence:
+  enabled: true
+  ## If defined, volume.beta.kubernetes.io/storage-class: <storageClass>
+  ## Default: volume.alpha.kubernetes.io/storage-class: default
+  ##
+  # storageClass:
+  accessMode: ReadWriteOnce
+  size: 1Gi
+resources:
+  cpu: 200m
+  memory: 512Mi
+namespace: postgres 
