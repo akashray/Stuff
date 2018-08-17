@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="C:\Users\admin\Desktop\d3.wordcount.js"></script>
+<head>
+<body>
+
+<script>
+	  
+  var fill = d3.scaleOrdinal(d3.schemeCategory20)
+  var data = [{word:"Hello",weight:20},{word:"World",weight:10},{word:"Normally",weight:25},{word:"You",weight:15},{word:"Want",weight:30},{word:"More",weight:12},{word:"Words",weight:8},{word:"But",weight:18},{word:"Who",weight:22},{word:"Cares",weight:27}];
+	
+	//console.log(data);
+	var svg = d3.select("body")
+				.append("svg")
+				.attr("width",500)
+				.attr("height",500)
+				.attr("class","svgClass");
+  
+	var g = svg.append("g")
+				.attr("transform", "translate(150,150)");
+  
+  
+ d3.layout.cloud()
+      .words(data.map(function(d) {
+        return {text: d.word, size: d.weight};
+      }))
+      .padding(5)
+      .rotate(function() { return ~~(Math.random() * 2) * 90; })
+      .font("Impact")
+      .fontSize(function(d) { return d.size; })
+      .on("end", draw)
+      .start();
+
+  function draw(words) {
+  
+      g.selectAll("text")
+        .data(words)
+      .enter().append("text")
+		.attr("class","word")
+        .style("font-size", function(d) {return d.size + "px"; })
+        .style("font-family", "Impact")
+        .style("fill", function(d, i) { return fill(i); })
+        .attr("text-anchor", "middle")
+        .attr("transform", function(d) {
+			//console.log("translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")");
+          return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+        })
+        .text(function(d) { return d.text; });
+		
+	}
+
+  var Newdata = [{word:"My",weight:35},{word:"Name",weight:5},{word:"is",weight:15},{word:"Unknown",weight:12},{word:"Want",weight:13},{word:"More",weight:10},{word:"Words",weight:28}];
+  
+ function drawUpdate(Newdata){
+		console.log("Inside update function");
+		console.log(Newdata);
+   
+   d3.layout.cloud().stop();   
+   
+	//removing the unwanted elements
+	var removeElements = g.selectAll("text")
+							.data(Newdata);
+		removeElements.exit().remove();
+		
+		
+   d3.layout.cloud()
+      .words(Newdata.map(function(d) {
+        return {text: d.word, size: d.weight};
+      }))
+      .padding(5)
+      .rotate(function() { return ~~(Math.random() * 2) * 90; })
+      .font("Impact")
+      .fontSize(function(d) { return d.size; })
+	        .on("end", updating)
+      .start();
+	}
+	
+	function updating(words){
+	
+		g.selectAll("text")
+        .data(words)
+      .enter().append("text")
+		.attr("class","word")      
+		.style("font-size", function(d) {return d.size + "px"; })
+        .style("font-family", "Impact")
+        .style("fill", function(d, i) { return fill(i); })
+        .attr("text-anchor", "middle")
+        .attr("transform", function(d) {
+          return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+        })
+        .text(function(d) { return d.text; })
+		.transition()
+		.duration(5000);
+	
+	}
+	
+	setInterval(drawUpdate,5000,Newdata);
+   //setTimeout(drawUpdate(Newdata),5000);	
+	  
+
+	  
+  
+</script>
+  
+</body>
+</html>
