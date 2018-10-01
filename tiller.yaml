@@ -21,7 +21,6 @@ objects:
   kind: ClusterRoleBinding
   metadata:
     name: tiller
-    namespace: ${TILLER_NAMESPACE}
   roleRef:
     apiGroup: rbac.authorization.k8s.io
     kind: ClusterRole
