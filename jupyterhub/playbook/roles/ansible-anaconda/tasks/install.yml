@@ -1,0 +1,20 @@
+---
+# tasks file for anaconda/install
+
+- name: download anaconda installer
+  get_url:
+    url: "{{ anaconda_download_url }}"
+    dest: /tmp/anaconda{{ anaconda_version }}.sh
+    mode: 0755
+
+- name: create anaconda installation directory
+  file: path=/opt/anaconda state=directory
+
+- name: install anaconda
+  shell: /tmp/anaconda{{ anaconda_version }}.sh -b -p {{ anaconda_home }}
+  args:
+    creates: "{{ anaconda_home }}"
+    executable: /bin/bash
+#  notify:
+#    - update conda to latest version
+

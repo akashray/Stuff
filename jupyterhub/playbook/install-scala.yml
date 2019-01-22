@@ -1,0 +1,8 @@
+---
+
+ - name: install scala
+   hosts: packages
+   become: yes
+   roles:
+     - ansible-scala
+

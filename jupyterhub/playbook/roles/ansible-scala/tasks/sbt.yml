@@ -1,0 +1,11 @@
+# file: scala/tasks/binaries.yml
+
+- name: Scala | Download sbt
+  get_url:
+    url: "http://dl.bintray.com/sbt/rpm/sbt-{{scala_sbt_version}}.rpm"
+    dest: "/tmp/sbt-{{scala_sbt_version}}.rpm"
+
+- name: Scala | Install sbt
+  yum: 
+    name: /tmp/sbt-{{scala_sbt_version}}.rpm
+    state: latest

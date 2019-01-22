@@ -1,0 +1,4 @@
+---
+dbeaver_url_deb: "https://dbeaver.io/files/dbeaver-ce_latest_amd64.deb"
+dbeaver_url_rpm: "https://dbeaver.io/files/dbeaver-ce-latest-stable.x86_64.rpm"
+

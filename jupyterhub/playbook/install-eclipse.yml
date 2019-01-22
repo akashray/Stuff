@@ -1,0 +1,8 @@
+---
+
+ - name: install eclipse
+   hosts: packages
+   become: yes
+   roles:
+     - ansible-eclipse
+

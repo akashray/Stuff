@@ -1,0 +1,31 @@
+---
+# tasks file for anaconda
+
+- name: check if already installed
+  stat: path={{ anaconda_home }}/bin/conda
+  register: bin_conda
+  changed_when: bin_conda.stat.exists == False
+
+- include: install.yml
+  when: bin_conda.stat.exists == False
+
+- name: Add the anaconda to the system path (/etc/profile)
+  lineinfile:
+    dest: /etc/profile
+    regexp: "{{item.regexp}}"
+    line: "{{item.line}}"
+    state: present
+  with_items:
+    - regexp: "^CONDA_HOME=/opt/anaconda/{{ anaconda_version }}/"
+      line: "CONDA_HOME=/opt/anaconda/{{ anaconda_version }}/"
+    - regexp: "^PATH=.*CONDA_HOME.*"
+      line: "PATH=$PATH:$CONDA_HOME/bin"
+
+- name: source variables
+  become: yes
+  shell: source /etc/profile
+
+
+
+#- name: remove anaconda installer
+#  file: name=/tmp/anaconda{{ anaconda_version }}.sh state=absent
