@@ -1,0 +1,8 @@
+---
+
+ - name: install maven
+   hosts: packages
+   become: yes
+   roles:
+     - ansible-maven
+

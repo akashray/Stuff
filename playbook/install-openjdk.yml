@@ -1,0 +1,8 @@
+---
+
+ - name: install openjdk
+   hosts: packages
+   become: yes
+   roles:
+     - ansible-openjdk
+

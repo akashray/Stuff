@@ -1,0 +1,31 @@
+---
+
+#- import_playbook: install-openjdk.yml
+
+#- import_playbook: install-python.yml
+
+#- import_playbook: install-maven.yml
+
+#- import_playbook: install-scala.yml
+
+- import_playbook: install-anaconda.yml
+
+#- import_playbook: install-pgadmin4.yml
+
+#- import_playbook: install-rstudio.yml
+
+#- import_playbook: install-shiny-server.yml
+
+#- import_playbook: install-dbeaver.yml
+
+#- import_playbook: install-eclipse.yml
+
+- name: Install Firefox
+  hosts: packages
+  connection: ssh
+  become: yes
+  tasks:
+    - name: Install firefox
+      yum:
+        name: firefox
+        state: latest

@@ -1,0 +1,8 @@
+---
+
+ - name: install dbeaver
+   hosts: packages
+   become: yes
+   roles:
+     - ansible-dbeaver
+

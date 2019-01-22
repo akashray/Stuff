@@ -1,0 +1,8 @@
+---
+
+ - name: install anaconda
+   hosts: packages
+   become: yes
+   roles:
+     - ansible-anaconda
+
