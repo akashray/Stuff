@@ -26,6 +26,5 @@
   shell: source /etc/profile
 
 
-
-#- name: remove anaconda installer
-#  file: name=/tmp/anaconda{{ anaconda_version }}.sh state=absent
+- name: remove anaconda installer
+  file: name=/tmp/anaconda{{ anaconda_version }}.sh state=absent

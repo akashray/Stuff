@@ -1,0 +1,105 @@
+---
+- name: Update Repo
+  command: sudo yum -y update  
+ 
+- name: Ensure group devops exists
+  group:
+    name: devops
+    state: present
+
+- name: Create a login user
+  user:
+    name: devops
+    group: devops
+    groups: devops,wheel,adm     # Empty by default
+    shell: /bin/bash
+    state: present
+    system: yes                 # Defaults to no
+    createhome: yes             # Defaults to
+
+- name: Install EPEL repo.
+  yum:
+    name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ ansible_distribution_major_version }}.noarch.rpm
+    state: present
+
+- name: Import EPEL GPG key.
+  rpm_key:
+    key: /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-{{ ansible_distribution_major_version }}
+    state: present    
+
+
+- name: Install the 'Gnome desktop' environment group
+  yum:
+    name: "@^gnome-desktop-environment"
+    state: present
+    update_cache: yes
+
+- name: Install the 'Server with GUI' package group
+  yum:
+    name: "@^Server with GUI"
+    state: present
+    update_cache: yes
+
+- name: Install the 'Graphical Administration Tools' environment group
+  yum:
+    name: "@^Graphical Administration Tools"
+    state: present
+    update_cache: yes
+  ignore_errors: true
+
+- name: Install xrdp
+  yum:
+    name: xrdp
+    enablerepo: cr
+    state: present
+
+- name: Install xrdp, tigervnc-server
+  yum: package={{ item }} state=present
+  with_items:
+    - xrdp 
+    - tigervnc-server
+
+- name: Create symbolic link
+  file:
+    src: /lib/systemd/system/runlevel5.target
+    dest: /etc/systemd/system/default.target
+    state: link
+
+- name: Enable xrdp service
+  service:
+    name: xrdp
+    enabled: yes
+
+- name: Enable xrdp service
+  service:
+    name: xrdp
+    state: restarted
+
+- name: Disable firewalld service on boot
+  service:
+    name: firewalld
+    enabled: no
+  ignore_errors: true
+
+- name: Stop firewalld service
+  service:
+    name: firewalld
+    state: stopped
+  ignore_errors: true  
+    
+- name: Restart server
+  command: /sbin/shutdown -r +1
+  async: 0
+  poll: 0
+  ignore_errors: true
+ 
+- name: Wait 600 seconds for port 22 to become open
+  wait_for:
+    port: 22
+    host: '{{ (ansible_ssh_host|default(ansible_host))|default(inventory_hostname) }}'
+    timeout: 600
+    delay: 10
+  connection: local
+
+- name: Waiting for machine to get ready
+  pause: seconds=120 

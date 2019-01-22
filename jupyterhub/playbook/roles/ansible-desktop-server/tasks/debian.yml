@@ -1,0 +1,63 @@
+---
+
+- name: Ensure group devops exists
+  group:
+    name: devops
+    state: present
+
+- name: Create a login user
+  user:
+    name: devops
+    group: devops
+    groups: devops,sudo,adm     # Empty by default
+    shell: /bin/bash
+    state: present
+    system: yes                 # Defaults to no
+    createhome: yes             # Defaults to
+
+- name: apt-get update
+  apt: 
+    update_cache: yes
+
+- name: apt-get upgrade
+  apt: 
+    upgrade: dist
+  
+- name: Edit the sshd_config file on your Linux instance to allow password authentication.
+  command: sed -i 's/^PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config
+
+- name: restart sshd service
+  shell: sleep 3; /etc/init.d/ssh restart
+  async: 1
+  poll: 0
+
+- name: Install firefox
+  apt: package={{ item }} state=present
+  with_items:
+    - firefox
+    
+- name: Install xrdp, the xfce4 desktop environment with some plug-ins
+  apt: package={{ item }} state=present
+  with_items:
+    - xrdp 
+    - xfce4 
+    - xfce4-goodies 
+    - tightvncserver
+
+- name:  Make xfce4 the default window manager for RDP connections.
+  shell: echo  xfce4-session> /home/devops/.xsession
+  args:
+    creates: /home/devops/.xsession
+  become: yes
+  become_user: devops
+
+- name: Copy .xsession to the /etc/skel folder so that xfce4 is set as the default window manager for any new user accounts that are created.
+  command: cp /home/devops/.xsession /etc/skel
+
+- name: Run the sed command to update the [xrdp1] section of /etc/xrdp/xrdp.ini to allow changing of the host port you will connect to.
+  command: sed -i '0,/-1/s//ask-1/' /etc/xrdp/xrdp.ini
+
+- name: restart xrdp service
+  service: 
+    name: xrdp
+    state: restarted
