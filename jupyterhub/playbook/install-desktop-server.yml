@@ -1,9 +1,0 @@
----
-
-- name: Apply the desktop-server role to the desktop-server group
-  hosts: packages
-  any_errors_fatal: true
-  become: yes
-  roles:
-    - ansible-desktop-server
-

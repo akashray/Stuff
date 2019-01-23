@@ -1,5 +1,0 @@
-# file: scala/defaults/main.yml
-
-scala_versions: ["2.12.1"]              # A list of scala versions you want to have installed
-scala_default_version: "2.12.1"         # The scala version you want to be the system default
-scala_sbt_version: "1.2.8"             # The version of sbt to install

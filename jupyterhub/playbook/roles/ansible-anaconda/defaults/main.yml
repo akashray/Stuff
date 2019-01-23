@@ -1,6 +1,0 @@
----
-# defaults file for anaconda
-
-anaconda_version: 3-5.3.1
-anaconda_download_url: https://repo.anaconda.com/archive/Anaconda{{ anaconda_version }}-Linux-x86_64.sh
-anaconda_home: /opt/anaconda/{{ anaconda_version }}

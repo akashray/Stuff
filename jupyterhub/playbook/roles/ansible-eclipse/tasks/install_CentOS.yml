@@ -1,5 +1,0 @@
-- get_url: url=http://ftp.fau.de/eclipse/technology/epp/downloads/release/kepler/SR2/eclipse-automotive-kepler-SR2-incubation-linux-gtk-x86_64.tar.gz dest=/tmp/eclipse.tar.gz
-- unarchive: src=/tmp/eclipse.tar.gz dest=/opt remote_src=true
-- copy: src=eclipse.desktop dest=/usr/share/applications/eclipse.desktop
-- set_fact: eclipse_home=/opt/eclipse
-- set_fact: eclipse="{{ eclipse_home }}/eclipse"

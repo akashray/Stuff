@@ -1,7 +1,0 @@
----
- - name: Ensure temp download directory exist
-   file: state=directory path={{dbeaver_tmp_dir}} mode=0755 force=yes
- - include: Debian.yml
-   when: ansible_os_family in ['Debian','Linuxmint']
- - include: RedHat.yml
-   when: ansible_os_family == 'RedHat'

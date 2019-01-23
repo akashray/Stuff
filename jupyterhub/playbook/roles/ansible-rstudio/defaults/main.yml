@@ -1,6 +1,0 @@
-# defaults file for rstudio
----
-rstudio_version: 1.1.463
-rstudio_install: []
-rstudio_download_url: "https://download1.rstudio.org/rstudio-{{ rstudio_version }}-x86_64.rpm"
-rstudio_downloads_path: "/var/lib/ansible/rstudio/downloads"

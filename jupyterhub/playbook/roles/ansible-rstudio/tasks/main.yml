@@ -1,7 +1,0 @@
-# tasks file for rstudio
----
-- include: install.yml
-  tags:
-   - configuration
-   - rstudio
-   - rstudio-install

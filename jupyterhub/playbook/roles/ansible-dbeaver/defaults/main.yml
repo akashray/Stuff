@@ -1,4 +1,0 @@
----
-dbeaver_tmp_dir: "/etc/ansible_downloads/"
-dbeaver_tmp_rpm: "{{dbeaver_tmp_dir}}/dbeaver-ce_5.3.2_amd64.rpm"
-dbeaver_tmp_deb: "{{dbeaver_tmp_dir}}dbeaver-ce_5.3.2_amd64.deb"
