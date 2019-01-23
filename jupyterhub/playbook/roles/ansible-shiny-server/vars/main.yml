@@ -2,6 +2,8 @@
 ---
 shiny_server_dependencies:
   - curl
+  - R
+  - epel-release
 shiny_server_downloads_path: /var/lib/ansible/shiny-server/downloads
 shiny_server_machine_map:
   i686: i386

@@ -19,18 +19,52 @@
     state: yes
     persistent: yes
 
-- name: Add PostgreSQL repo.
-  package:
+#- name: Add PostgreSQL repo.
+#  package:
+#    name: "{{ pgdg_package }}"
+#    state: present
+
+- name: Add PostgreSQL repo
+  yum:
     name: "{{ pgdg_package }}"
     state: present
+
+- name: Install PostgreSQL 10
+  yum:
+    name: 
+      - postgresql10-server
+      - postgresql10
+    state: present
+
+
+#- name: Initialize postgreSQL
+#  become: yes
+#  shell: /usr/pgsql-10/bin/postgresql-10-setup initdb
+
+- name: Start service postgreSQL, if not started
+  service:
+    name: postgresql-10
+    state: started
+
+- name: Enable service postgresql, and not touch the state
+  service:
+    name: postgresql-10
+    enabled: yes
 
 - name: Add EPEL
   yum:
     name: epel-release
 
-- name: Install pgAdmin4-web.
+#- name: Install pgadmin
+#  yum:
+#    name: pgadmin4
+#    state: present
+
+- name: Install pgadmin4 amd pgAdmin4-web.
   yum:
-    name: pgadmin4-web
+    name: 
+      - pgadmin4-web
+      - pgadmin4
     state: present
 
 - name: Initialize pgAdmin4.
@@ -57,4 +91,7 @@
     recurse: yes
   with_items:
     - /var/log/pgadmin
-    - /var/lib/pgadmin
+    - /var/lib/pgadmini
+
+- name: Make alias for python
+  shell: alias python="/usr/bin/python3.6"

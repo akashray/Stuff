@@ -8,6 +8,9 @@
   tags:
     - shiny-server-install-dependencies
 
+#- name: Install commonly used R packages
+#  shell: sudo su - -c "R -e \"install.packages(c('shiny', 'rmarkdown', 'devtools', 'RJDBC'), repos='http://cran.rstudio.com/')\""
+
 - name: install | additional
   yum:
     name: "{{ item }}"
