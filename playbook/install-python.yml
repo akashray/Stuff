@@ -1,8 +1,0 @@
----
-
- - name: install python
-   hosts: packages
-   become: yes
-   roles:
-     - ansible-python
-

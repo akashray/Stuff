@@ -1,8 +1,0 @@
----
-
- - name: install pgadmin4
-   hosts: packages
-   become: yes
-   roles:
-     - ansible-pgadmin4
-

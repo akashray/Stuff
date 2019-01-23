@@ -1,8 +1,0 @@
----
-
- - name: install rstudio
-   hosts: packages
-   become: yes
-   roles:
-     - ansible-rstudio
-

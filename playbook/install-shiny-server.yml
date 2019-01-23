@@ -1,8 +1,0 @@
----
-
- - name: install shiny-server
-   hosts: packages
-   become: yes
-   roles:
-     - ansible-shiny-server
-
