@@ -1,0 +1,22 @@
+To clone with branch(test1)
+
+git clone <url.git> -b test1
+==================================================
+To commit chnages------
+
+git status
+git add .
+git commit -m "comment"
+git push
+==================================================
+To create new branch(test1)from existing branch
+
+git checkout -b test1 master
+git push origin test1
+==================================================
+To delete a branch(test1)
+ 
+git checkout master
+git branch -D test1
+git push origin :test1
+======================================================
