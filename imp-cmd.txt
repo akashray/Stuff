@@ -1,0 +1,162 @@
+=======================================================================
+CPU utilisation:
+top -bn1 | grep "Cpu(s)" | sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | awk '{print 100 - $1}'
+
+
+===========================================================
+
+a=$(kubectl get pods -n kube-logging --kubeconfig ~/.kube/perf_config_latest | grep OutOfcpu | sed 's/\|/ /'|awk '{print $1}'\n)
+echo $a
+kubectl delete pods $a -n kube-logging --kubeconfig ~/.kube/perf_config_latest
+
+====================Git Repo Creation using cmd=======================================
+create a new repository on the command line
+
+echo "# jenkinsPipeline" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git remote add origin https://github.com/akashray/jenkinsPipeline.git
+git push -u origin master
+
+================
+
+…or push an existing repository from the command line
+
+git remote add origin https://github.com/akashray/jenkinsPipeline.git
+git push -u origin master
+git branch -a
+git checkout feature 
+
+
+$ git checkout -b myFeature dev
+Creates MyFeature branch off dev. Do your work and then
+
+$ git commit -am "Your message"
+Now merge your changes to dev without a fast-forward
+
+$ git checkout dev
+$ git merge --no-ff myFeature
+Now push changes to the server
+
+$ git push origin dev
+$ git push origin myFeature
+And you'll see it how you want it.
+
+
+
+====================================K8S dashboard==============================================================
+
+K8s Dashboard setup 
+
+ 
+
+1.Deploying the Dashboard UI 
+Expose the dashboard service using ingress or LB 
+
+  kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-beta4/aio/deploy/recommended.yaml 
+
+ 
+
+2.Accessing the Dashboard UI 
+Create service account and role binding 
+
+--- 
+apiVersion: v1 
+kind: ServiceAccount 
+metadata:   
+  name: admin-user  
+  namespace: kube-system 
+--- 
+apiVersion: rbac.authorization.k8s.io/v1 
+kind: ClusterRoleBinding 
+metadata: 
+  name: admin-user 
+roleRef:   
+  apiGroup: rbac.authorization.k8s.io 
+  kind: ClusterRole 
+  name: cluster-admin 
+subjects:-  
+  kind: ServiceAccount 
+  name: admin-user 
+  namespace: kube-system 
+ 
+
+3.Get the Admin user token 
+Get the token and login using dashboard UI. 
+
+  kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep admin-user | awk '{print $1}') 
+
+================================================================================================================= 
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+
+
+
+
+
+============================================================================================================================
+Neo4j DB Backup using apoc module 
+
+Steps: 
+
+ 
+
+1.Download the neo4 version compatible apoc pulgin from https://github.com/neo4j-contrib/neo4j-apoc-procedures/releases using wget 
+and place the jar file in the /var/lib/neo4j/plugins folder of neo4j. 
+Version compatibility.(https://github.com/neo4j-contrib/neo4j-apoc-procedures/releases/download/3.5.0.4/apoc-3.5.0.4-all.jar) 
+
+ 
+
+  apoc version =====neo4j version 
+
+  3.5.0.4      ===== 3.5.6 (3.5.x) 
+
+ 
+
+ 
+
+2.Once done, add the following lines to neo4j.conf file 
+
+ 
+  dbms.security.procedures.whitelist=apoc.coll.*,apoc.load.*,apoc.* 
+  apoc.export.file.enabled=true 
+  apoc.import.file.enabled=true 
+
+ 
+
+3. Restart the neo4j database instance after that. 
+
+  sudo systemctl restart neo4j 
+
+ 
+
+4.Now go to cypher shell using neo4j user and take backup in json or graphml. Also create a json file with appropriate permission and ownership. 
+
+  sudo touch /var/lib/neo4j/import/complete-graph.json 
+
+  sudo chown neo4j:adm /var/lib/neo4j/import/complete-graph.json 
+
+ ==============================================================================================
+
+ 
+
+CALL apoc.export.json.all('complete-graph.json', {useTypes:true, storeNodeIds:false}) 
+
+ 
+
+CALL apoc.export.graphml.all('complete-graph.graphml', {useTypes:true, storeNodeIds:false}) 
+
+ 
+
+ 
+
