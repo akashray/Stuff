@@ -8,7 +8,7 @@ hub:
       nodePort:
     loadBalancerIP:
   baseUrl: /
-  cookieSecret:
+  cookieSecret: admin@123
   publicURL:
   initContainers: []
   uid: 1000
@@ -26,7 +26,7 @@ hub:
     ##   deployment of JupyterHub on k8s is to be possible.
     type: Recreate
   db:
-    type: sqlite-pvc
+    type: mysql
     upgrade:
     pvc:
       annotations: {}
@@ -36,7 +36,7 @@ hub:
       storage: 1Gi
       subPath:
       storageClassName:
-    url:
+    url: mysql+pymysql://root:admin@123@mysql:3306/mysql
     password:
   labels: {}
   annotations: {}
