@@ -8,7 +8,7 @@ hub:
       nodePort:
     loadBalancerIP:
   baseUrl: /
-  cookieSecret: admin@123
+  cookieSecret: fdd18db06b2351dd348933392e81ef73decf1605342732163021addb672efb01
   publicURL:
   initContainers: []
   uid: 1000
@@ -27,7 +27,7 @@ hub:
     type: Recreate
   db:
     type: mysql
-    upgrade:
+    upgrade: true
     pvc:
       annotations: {}
       selector: {}
@@ -36,7 +36,7 @@ hub:
       storage: 1Gi
       subPath:
       storageClassName:
-    url: mysql+pymysql://root:admin@123@mysql:3306/mysql
+    url: mysql+pymysql://akash:akash123@mysql:3306/jupyterhub
     password:
   labels: {}
   annotations: {}
