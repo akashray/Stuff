@@ -35,8 +35,9 @@ hub:
         - ReadWriteOnce
       storage: 1Gi
       subPath:
-      storageClassName:
-    url: mysql+pymysql://akash:akash123@mysql:3306/jupyterhub
+      storageClassName:  
+
+    url: mysql+pymysql://jupyterhub:5nuTVreOyC3H1w1sPHZeft2b@mysql:3306/jupyterhub
     password:
   labels: {}
   annotations: {}
