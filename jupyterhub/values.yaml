@@ -193,7 +193,7 @@ proxy:
 
 
 auth:
-  type: dummy
+  type: admin
   whitelist:
     users:
   admin:
@@ -207,7 +207,7 @@ auth:
       user: {}
     user: {}
   state:
-    enabled: false
+    enabled: true
     cryptoKey:
 
 
