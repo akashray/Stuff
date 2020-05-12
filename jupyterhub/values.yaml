@@ -193,14 +193,18 @@ proxy:
 
 
 auth:
-  type: admin
+  type: dummy
   whitelist:
     users:
+    - admin
+    - akash
+    - ramesh
   admin:
     access: true
     users:
+    - admin 
   dummy:
-    password:
+    password: admin12345
   ldap:
     dn:
       search: {}
@@ -208,7 +212,7 @@ auth:
     user: {}
   state:
     enabled: true
-    cryptoKey:
+    cryptoKey: b2070843677706a2fa6370645bb6725b02b696f5b7e96d2f0a05ff7ceb2f2ee1
 
 
 singleuser:
