@@ -20,3 +20,6 @@ git checkout master
 git branch -D test1
 git push origin :test1
 ======================================================
+local changes you made will be rebased on top of the remote changes using below cmd:
+
+git pull --rebase
