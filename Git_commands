@@ -2,7 +2,7 @@ To clone with branch(test1)
 
 git clone <url.git> -b test1
 ==================================================
-To commit chnages------
+To commit chnages--
 
 git status
 git add .
