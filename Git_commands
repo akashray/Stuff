@@ -1,5 +1,6 @@
-To clone with branch(test1)
+https://dzone.com/articles/8-useful-but-not-well-known-git-concepts
 
+To clone with branch(test1)
 git clone <url.git> -b test1
 ==================================================
 To commit chnages---
