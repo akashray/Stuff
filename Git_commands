@@ -23,3 +23,17 @@ git push origin :test1
 local changes you made will be rebased on top of the remote changes using below cmd:
 
 git pull --rebase
+========================================================
+# Shelve and restore incomplete changes
+# Temporarily stores all modified tracked files
+
+git stash
+
+# Restores the most recently stashed files
+git stash pop
+
+# Lists all stashed changesets
+git stash list
+
+# Discards the most recently stashed changeset
+git stash drop
